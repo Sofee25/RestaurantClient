@@ -77,24 +77,37 @@ class AuthViewModel @Inject constructor(
                     }
                 } else {
                     // Backend only returned token, save username and determine role later
-                    android.util.Log.w("AuthViewModel", "❌ Backend didn't return user info, will determine role manually")
+                    android.util.Log.w("AuthViewModel", "❌ Backend didn't return user info, will fetch manually")
                     tokenManager.saveUsername(loginDto.username)
-                    
-                    // Create minimal user object
-                    currentUser = UserDTO(
-                        userId = null,
-                        username = loginDto.username,
-                        roleDetails = null, // Will be determined later
-                        createdAt = null,
-                        updatedAt = null
-                    )
-                    
-                    // Try to determine role by checking admin endpoints only if no role was derived from the JWT
-                    if (tokenManager.getUserRole() == null) {
-                        android.util.Log.d("AuthViewModel", "Attempting to determine role by testing admin access (no role from JWT)...")
-                        determineUserRole(loginDto.username)
+
+                    val userId = tokenManager.getUserId()
+                    if (userId != null) {
+                        android.util.Log.d("AuthViewModel", "Fetching user details for user ID: $userId")
+                        val userResult = userRepository.getUserById(userId)
+                        if (userResult is Result.Success) {
+                            val user = userResult.data
+                            android.util.Log.d("AuthViewModel", "✅ Successfully fetched user details")
+                            android.util.Log.d("AuthViewModel", "Username: ${user.username}, Role: ${user.roleDetails?.name}")
+
+                            currentUser = user
+                            tokenManager.saveUsername(user.username)
+                            user.roleDetails?.let { roleDetails ->
+                                tokenManager.saveUserRole(roleDetails.name) // Use the name from RoleDetailsDTO
+                                android.util.Log.d("AuthViewModel", "✅ SAVED ROLE: ${roleDetails.name} for user: ${user.username}")
+                            } ?: run {
+                                android.util.Log.w("AuthViewModel", "⚠️ Fetched user but role details are null!")
+                                // Fallback to old logic if role name is missing
+                                determineUserRole(loginDto.username)
+                            }
+                        } else {
+                            android.util.Log.e("AuthViewModel", "❌ Failed to fetch user details, falling back to role determination.")
+                            // Fallback to old logic
+                            determineUserRole(loginDto.username)
+                        }
                     } else {
-                        android.util.Log.d("AuthViewModel", "Skipping manual role determination (role already derived from JWT): ${tokenManager.getUserRole()}")
+                        android.util.Log.e("AuthViewModel", "❌ Could not get user ID from token, falling back to role determination.")
+                        // Fallback to old logic
+                        determineUserRole(loginDto.username)
                     }
                 }
             } else {

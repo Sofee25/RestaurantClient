@@ -99,6 +99,21 @@ class TokenManager @Inject constructor(private val prefs: SharedPreferences) {
         return username
     }
 
+    fun getUserId(): Int? {
+        val token = getToken() ?: return null
+        return try {
+            val payload = decodeJWTPayload(token)
+            if (payload.has("sub")) {
+                payload.getInt("sub")
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("TokenManager", "Could not extract user ID from token", e)
+            null
+        }
+    }
+
     fun saveUsername(username: String) {
         Log.d("TokenManager", "Saving username: $username")
         prefs.edit().putString(USERNAME_KEY, username).apply()

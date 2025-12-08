@@ -51,6 +51,9 @@ interface ApiService {
     @GET("api/v1/users")
     suspend fun getAllUsers(): Response<List<UserDTO>>
 
+    @GET("api/v1/users/{id}")
+    suspend fun getUserById(@Path("id") userId: Int): Response<UserDTO>
+
     @POST("api/v1/users/create")
     suspend fun createUser(@Body createUserRequest: CreateUserRequest): Response<UserDTO>
 

@@ -65,6 +65,19 @@ class UserRepository @Inject constructor(private val apiService: ApiService) {
         }
     }
 
+    suspend fun getUserById(userId: Int): Result<UserDTO> {
+        return try {
+            val response = apiService.getUserById(userId)
+            if (response.isSuccessful) {
+                Result.Success(response.body()!!)
+            } else {
+                Result.Error(Exception("Failed to get user by ID: ${response.code()}"))
+            }
+        } catch (e: Exception) {
+            Result.Error(e)
+        }
+    }
+
     suspend fun createUser(username: String, password: String, role: RoleDTO): Result<Unit> {
         return try {
             val roleString = when (role) {
