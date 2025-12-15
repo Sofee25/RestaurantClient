@@ -1,5 +1,7 @@
 # Customer UI Design Plan
 
+> **Status (2025-12-15):** Phase 1 items (enhanced product list with cart badge, product detail cart flow, cart/checkout/order confirmation) are ✅ implemented. Phases 2–3 items (search, favorites, address/payment management, support, etc.) remain in the backlog.
+
 ## 🛍️ **Customer-Focused Shopping Experience**
 
 ### **Current State Analysis**

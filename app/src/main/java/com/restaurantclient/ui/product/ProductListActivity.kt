@@ -6,13 +6,18 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.graphics.ColorUtils
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.eightbitlab.com.blurview.BlurView
+import com.eightbitlab.com.blurview.RenderScriptBlur
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.restaurantclient.MainActivity
 import com.restaurantclient.R
@@ -56,6 +61,7 @@ class ProductListActivity : AppCompatActivity() {
 
         setupToolbar()
         setupAdminUi()
+        setupGlassEffects()
         setupRecyclerView()
         setupClickListeners()
         setupObservers()
@@ -73,6 +79,7 @@ class ProductListActivity : AppCompatActivity() {
     private fun setupAdminUi() {
         binding.adminModeBanner.isVisible = isAdminUser
         binding.adminAddProductFab.isVisible = isAdminUser
+        binding.customerGlassBanner.isVisible = !isAdminUser
 
         if (isAdminUser) {
             binding.adminQuickUsersButton.setOnClickListener {
@@ -92,6 +99,10 @@ class ProductListActivity : AppCompatActivity() {
             binding.adminQuickOrdersButton.setOnClickListener(null)
             binding.adminQuickDashboardButton.setOnClickListener(null)
             binding.adminAddProductFab.setOnClickListener(null)
+        }
+
+        binding.customerBannerOrdersButton.setOnClickListener {
+            startActivity(Intent(this, com.restaurantclient.ui.order.MyOrdersActivity::class.java))
         }
     }
 
@@ -328,5 +339,23 @@ class ProductListActivity : AppCompatActivity() {
 
     private fun updateLoadingState() {
         binding.progressBar.isVisible = isFetchLoading || isMutationLoading
+    }
+
+    private fun setupGlassEffects() {
+        configureBlur(binding.adminBannerBlurView, R.color.admin_glass_overlay, 20f)
+        configureBlur(binding.customerBannerBlurView, R.color.customer_glass_overlay, 22f)
+    }
+
+    private fun configureBlur(blurView: BlurView, overlayColorRes: Int, radius: Float = 18f) {
+        val decorView = window.decorView
+        val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
+        val windowBackground = decorView.background
+        blurView.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(radius)
+            .setHasFixedTransformationMatrix(true)
+        val overlay = ColorUtils.setAlphaComponent(ContextCompat.getColor(this, overlayColorRes), 200)
+        blurView.setOverlayColor(overlay)
     }
 }

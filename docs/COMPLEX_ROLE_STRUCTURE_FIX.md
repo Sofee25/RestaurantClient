@@ -1,5 +1,7 @@
 # Complex Role Structure Fix
 
+> **Status (2025-12-15):** ✅ Implemented in codebase. The `RoleDetailsDTO` + `UserDTO.role` computed property and AuthViewModel logging/conversion described below are live.
+
 ## 🚨 **Root Cause Identified**
 Your backend returns a **complex role object** instead of a simple string, which was causing the admin role to be lost during deserialization.
 

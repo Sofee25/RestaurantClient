@@ -1,5 +1,7 @@
 # Customer Transaction Implementation & Fixes
 
+> **Status (2025-12-15):** ✅ Flow implemented and active. Customer cart/checkout/order confirmation features described below are present in the app and wired to backend APIs.
+
 ## 🚀 **Implementation Summary**
 
 I have successfully implemented and fixed the complete customer shopping transaction flow. The customer UI now properly integrates with the backend for all transaction operations.

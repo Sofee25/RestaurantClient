@@ -6,9 +6,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.isVisible
+import com.eightbitlab.com.blurview.BlurView
+import com.eightbitlab.com.blurview.RenderScriptBlur
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.restaurantclient.MainActivity
@@ -33,6 +37,7 @@ class AdminDashboardActivity : BaseAdminActivity() {
         setContentView(binding.root)
 
         setupToolbar()
+        setupGlassEffects()
         setupClickListeners()
         setupObservers()
         
@@ -160,5 +165,22 @@ class AdminDashboardActivity : BaseAdminActivity() {
         super.onResume()
         // Refresh dashboard data when returning to screen
         adminViewModel.loadDashboardData()
+    }
+
+    private fun setupGlassEffects() {
+        configureBlur(binding.adminBadgeBlurView, R.color.admin_glass_overlay, 22f)
+    }
+
+    private fun configureBlur(blurView: BlurView, overlayColorRes: Int, radius: Float = 18f) {
+        val decorView = window.decorView
+        val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
+        val windowBackground = decorView.background
+        blurView.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(radius)
+            .setHasFixedTransformationMatrix(true)
+        val overlay = ColorUtils.setAlphaComponent(ContextCompat.getColor(this, overlayColorRes), 200)
+        blurView.setOverlayColor(overlay)
     }
 }
