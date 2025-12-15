@@ -21,17 +21,17 @@ val apiBaseUrl = envProperties.getProperty("API_BASE_URL")
 val buildConfigBaseUrl = apiBaseUrl.trim().replace("\"", "\\\"")
 
 android {
-    namespace = "com.orderly"
+    namespace = "com.restaurantclient"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.orderly"
+        applicationId = "com.restaurantclient"
         minSdk = 33
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "com.orderly.HiltTestRunner"
+        testInstrumentationRunner = "com.restaurantclient.HiltTestRunner"
         buildConfigField("String", "BASE_URL", "\"$buildConfigBaseUrl\"")
     }
 

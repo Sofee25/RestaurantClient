@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Orderly"
+rootProject.name = "RestaurantClient"
 include(":app")
  

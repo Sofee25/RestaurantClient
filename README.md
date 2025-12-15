@@ -1,7 +1,10 @@
-# Orderly
+# Restaurant Client
 
 ## Description
-Orderly is a comprehensive mobile application designed to streamline order management processes. It aims to provide an efficient and intuitive platform for both administrators and customers to handle orders, products, and user accounts.
+Restaurant Client is a comprehensive mobile application designed to streamline order management processes. It aims to provide an efficient and intuitive platform for both administrators and customers to handle orders, products, and user accounts.
+
+## ARROW Server
+ARROW (Asynchronous Rust Restaurant Order Workflow) Server is a high-performance backend server designed to streamline restaurant operations. Built with Rust, it leverages the language's safety and concurrency features to deliver a robust and efficient solution for managing orders, inventory, and customer interactions.
 
 ## Features
 - **User Authentication & Authorization:** Secure login and role-based access control for administrators and customers.
@@ -28,8 +31,8 @@ Orderly is a comprehensive mobile application designed to streamline order manag
 ### Steps
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-repo/Orderly.git
-    cd Orderly
+    git clone https://github.com/your-repo/RestaurantClient.git
+    cd RestaurantClient
     ```
 2.  **Open in Android Studio:**
     Open the project in Android Studio.
