@@ -65,8 +65,8 @@
     <string name="order_detail_error_missing">Unable to load order details. Please try again.</string>
     
     <!-- Food Delivery App Strings -->
-    <string name="app_brand_name">Foodgo</string>
-    <string name="app_tagline">Order your favourite food!</string>
+    <string name="app_brand_name">Itadaki</string>
+    <string name="app_tagline">Authentic Taste, Delivered.</string>
     <string name="search_hint">Search for food…</string>
     <string name="category_all">All</string>
     <string name="category_combos">Combos</string>
