@@ -27,6 +27,7 @@ import com.restaurantclient.data.CartManager
 import com.restaurantclient.data.Result
 import com.restaurantclient.data.dto.ProductResponse
 import com.restaurantclient.databinding.ActivityProductListBinding
+import com.restaurantclient.databinding.ActivityProductListAdminBinding
 import com.restaurantclient.databinding.DialogAdminProductBinding
 import com.restaurantclient.ui.admin.AdminDashboardActivity
 import com.restaurantclient.ui.admin.OrderManagementActivity
@@ -42,7 +43,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class ProductListActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityProductListBinding
+    private var customerBinding: ActivityProductListBinding? = null
+    private var adminBinding: ActivityProductListAdminBinding? = null
     private val productViewModel: ProductViewModel by viewModels()
     private val categoryViewModel: CategoryViewModel by viewModels()
     private val authViewModel: AuthViewModel by viewModels()
@@ -65,11 +67,18 @@ class ProductListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityProductListBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
+        
         authViewModel.loadStoredUserInfo()
         isAdminUser = authViewModel.isAdmin()
+        
+        // Inflate the appropriate layout based on user role
+        if (isAdminUser) {
+            adminBinding = ActivityProductListAdminBinding.inflate(layoutInflater)
+            setContentView(adminBinding!!.root)
+        } else {
+            customerBinding = ActivityProductListBinding.inflate(layoutInflater)
+            setContentView(customerBinding!!.root)
+        }
 
         setupModernUi()
         setupAdminUi()
@@ -80,109 +89,58 @@ class ProductListActivity : AppCompatActivity() {
         refreshProducts()
     }
     
+    // Helper methods to access views from either binding (with explicit non-null assertion)
+    private fun getSearchInput() = (if (isAdminUser) adminBinding!!.searchInput else customerBinding!!.searchInput)!!
+    private fun getFilterButton() = (if (isAdminUser) adminBinding!!.filterButton else customerBinding!!.filterButton)!!
+    private fun getProfileImage() = (if (isAdminUser) adminBinding!!.profileImage else customerBinding!!.profileImage)!!
+    private fun getFabCart() = customerBinding!!.fabCart!! // Only customer has fab_cart
+    private fun getProductsRecyclerView() = (if (isAdminUser) adminBinding!!.productsRecyclerView else customerBinding!!.productsRecyclerView)!!
+    private fun getProgressBar() = (if (isAdminUser) adminBinding!!.progressBar else customerBinding!!.progressBar)!!
+    private fun getCategoryChipGroup() = (if (isAdminUser) adminBinding!!.categoryChipGroup else customerBinding!!.categoryChipGroup)!!
+    
     private fun setupModernUi() {
         // Setup search functionality
-        binding.searchInput.setOnEditorActionListener { _, _, _ ->
-            val query = binding.searchInput.text.toString()
+        getSearchInput().setOnEditorActionListener { _, _, _ ->
+            val query = getSearchInput().text.toString()
             if (query.isNotEmpty()) {
                 filterProducts(query)
             }
             true
         }
 
-        // Category chips listener is now setup in setupDynamicCategoryChips()
-
         // Setup filter button
-        binding.filterButton.setOnClickListener {
+        getFilterButton().setOnClickListener {
             Toast.makeText(this, "Filter clicked", Toast.LENGTH_SHORT).show()
         }
 
         // Setup profile image click
-        binding.profileImage.setOnClickListener {
+        getProfileImage().setOnClickListener {
             startActivity(Intent(this, UserProfileActivity::class.java))
         }
 
-        // Setup bottom navigation
-        binding.navHome.setOnClickListener {
-            // Already on home
-        }
-
-        binding.navProfile.setOnClickListener {
-            startActivity(Intent(this, UserProfileActivity::class.java))
-        }
-
-        binding.fabAdd.setOnClickListener {
-            startActivity(Intent(this, ShoppingCartActivity::class.java))
-        }
-
-        binding.navOrders.setOnClickListener {
-            if (isAdminUser) {
-                startActivity(Intent(this, OrderManagementActivity::class.java))
-            } else {
-                startActivity(Intent(this, com.restaurantclient.ui.order.MyOrdersActivity::class.java))
+        // Setup cart FAB for customer only
+        if (!isAdminUser) {
+            getFabCart().setOnClickListener {
+                startActivity(Intent(this, ShoppingCartActivity::class.java))
             }
-        }
-
-        binding.navFavorites.setOnClickListener {
-            Toast.makeText(this, "Favorites coming soon", Toast.LENGTH_SHORT).show()
-        }
-        
-        binding.navAdminDashboard.setOnClickListener {
-            startActivity(Intent(this, AdminDashboardActivity::class.java))
         }
     }
 
     private fun setupAdminUi() {
-        binding.adminModeBanner.isVisible = isAdminUser
-        binding.adminAddProductFab.isVisible = isAdminUser
-        binding.navAdminDashboard.isVisible = isAdminUser
-        binding.bottomNavContainer.isVisible = isAdminUser
-
         if (isAdminUser) {
-            binding.adminQuickUsersButton.setOnClickListener {
-                startActivity(Intent(this, UserManagementActivity::class.java))
-            }
-            binding.adminQuickOrdersButton.setOnClickListener {
-                startActivity(Intent(this, OrderManagementActivity::class.java))
-            }
-            binding.adminQuickDashboardButton.setOnClickListener {
-                startActivity(Intent(this, AdminDashboardActivity::class.java))
-            }
-            binding.adminAddProductFab.setOnClickListener {
+            adminBinding!!.adminAddProductFab.setOnClickListener {
                 showProductEditor()
             }
-            // Configure blur for admin banner
-            val decorView = window.decorView
-            val rootView = decorView.findViewById<android.view.ViewGroup>(android.R.id.content)
-            val windowBackground = decorView.background
-            binding.adminBannerBlurView.setupWith(rootView)
-                .setFrameClearDrawable(windowBackground)
-                .setBlurAlgorithm(RenderScriptBlur(this))
-                .setBlurRadius(BLUR_RADIUS)
-                .setHasFixedTransformationMatrix(true)
-            val overlay = ColorUtils.setAlphaComponent(
-                ContextCompat.getColor(this, R.color.admin_glass_overlay), BLUR_OVERLAY_ALPHA
-            )
-            binding.adminBannerBlurView.setOverlayColor(overlay)
             
-            // Setup bottom navigation glassmorphism (admin only)
-            setupBottomNavGlass()
+            // Setup sort button
+            adminBinding!!.adminSortButton?.setOnClickListener {
+                Toast.makeText(this, "Sort options coming soon", Toast.LENGTH_SHORT).show()
+            }
         }
     }
     
     private fun setupBottomNavGlass() {
-        val decorView = window.decorView
-        val rootView = decorView.findViewById<android.view.ViewGroup>(android.R.id.content)
-        val windowBackground = decorView.background
-        
-        binding.bottomNavBlur.setupWith(rootView)
-            .setFrameClearDrawable(windowBackground)
-            .setBlurAlgorithm(RenderScriptBlur(this))
-            .setBlurRadius(20f)
-            .setHasFixedTransformationMatrix(false)
-        
-        val navOverlay = ContextCompat.getColor(this, R.color.bottom_nav_glass_overlay)
-        binding.bottomNavBlur.setOverlayColor(navOverlay)
+        // Only for customer UI if needed in future
     }
 
     private fun setupRecyclerView() {
@@ -199,8 +157,8 @@ class ProductListActivity : AppCompatActivity() {
             isAdminMode = isAdminUser
         )
         // Use GridLayoutManager for modern 2-column grid
-        binding.productsRecyclerView.layoutManager = GridLayoutManager(this, 2)
-        binding.productsRecyclerView.adapter = productListAdapter
+        getProductsRecyclerView().layoutManager = GridLayoutManager(this, 2)
+        getProductsRecyclerView().adapter = productListAdapter
     }
 
     private fun refreshProducts() {
@@ -226,7 +184,7 @@ class ProductListActivity : AppCompatActivity() {
     }
 
     private fun setupDynamicCategoryChips(categories: List<com.restaurantclient.data.dto.CategoryDTO>) {
-        binding.categoryChipGroup.removeAllViews()
+        getCategoryChipGroup().removeAllViews()
         
         // Add "All" chip first
         val allChip = Chip(this).apply {
@@ -239,7 +197,7 @@ class ProductListActivity : AppCompatActivity() {
             setTextColor(getColor(R.color.white))
             chipStrokeWidth = 0f
         }
-        binding.categoryChipGroup.addView(allChip)
+        getCategoryChipGroup().addView(allChip)
         
         // Add category chips dynamically
         categories.forEach { category ->
@@ -253,11 +211,11 @@ class ProductListActivity : AppCompatActivity() {
                 chipStrokeWidth = 2f
                 chipStrokeColor = getColorStateList(R.color.food_primary_red)
             }
-            binding.categoryChipGroup.addView(chip)
+            getCategoryChipGroup().addView(chip)
         }
         
         // Update chip colors when selection changes
-        binding.categoryChipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+        getCategoryChipGroup().setOnCheckedStateChangeListener { group, checkedIds ->
             // Reset all chips to default style
             for (i in 0 until group.childCount) {
                 val chip = group.getChildAt(i) as? Chip
@@ -423,7 +381,7 @@ class ProductListActivity : AppCompatActivity() {
         } else {
             // Fetch products by category from API
             lifecycleScope.launch {
-                binding.progressBar.isVisible = true
+                getProgressBar().isVisible = true
                 when (val result = productViewModel.getProductsByCategory(categoryId)) {
                     is Result.Success -> {
                         productListAdapter.submitList(result.data)
@@ -438,7 +396,7 @@ class ProductListActivity : AppCompatActivity() {
                         productListAdapter.submitList(allProducts)
                     }
                 }
-                binding.progressBar.isVisible = false
+                getProgressBar().isVisible = false
             }
         }
     }
@@ -500,7 +458,7 @@ class ProductListActivity : AppCompatActivity() {
                 true
             }
             R.id.action_product_list -> {
-                binding.productsRecyclerView.smoothScrollToPosition(0)
+                getProductsRecyclerView().smoothScrollToPosition(0)
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -516,11 +474,7 @@ class ProductListActivity : AppCompatActivity() {
     }
 
     private fun updateLoadingState() {
-        binding.progressBar.isVisible = isFetchLoading || isMutationLoading
-    }
-
-    private fun setupGlassEffects() {
-        configureBlur(binding.adminBannerBlurView, R.color.admin_glass_overlay, 20f)
+        getProgressBar().isVisible = isFetchLoading || isMutationLoading
     }
 
     private fun configureBlur(blurView: BlurView, overlayColorRes: Int, radius: Float = 18f) {

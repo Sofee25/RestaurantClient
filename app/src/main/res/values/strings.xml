@@ -95,4 +95,6 @@
     <string name="tonkotsu_ramen">Tonkotsu Ramen</string>
     <string name="rich_pork_bone_broth_chashu_pork_bamboo_shoots_and_a_soft_boiled_egg">Rich pork bone broth, chashu pork, bamboo shoots, and a soft-boiled egg</string>
     <string name="remove_item">Remove item from cart</string>
+    <string name="admin_mode_active">Admin Mode Active</string>
+    <string name="view_cart">View cart</string>
 </resources>

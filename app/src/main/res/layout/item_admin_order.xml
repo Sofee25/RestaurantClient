@@ -68,6 +68,8 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_pending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 style="@style/Widget.RestaurantClient.AdminBadge"
                 android:layout_marginEnd="8dp"
                 android:text="Pending"
@@ -75,6 +77,8 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_processing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 style="@style/Widget.RestaurantClient.AdminBadge"
                 android:layout_marginEnd="8dp"
                 android:text="Processing"
@@ -82,6 +86,8 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_completed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 style="@style/Widget.RestaurantClient.AdminBadge"
                 android:layout_marginEnd="8dp"
                 android:text="Completed"
@@ -89,6 +95,8 @@
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_cancelled"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 style="@style/Widget.RestaurantClient.AdminBadge"
                 android:text="Cancelled"
                 android:tag="Cancelled" />
