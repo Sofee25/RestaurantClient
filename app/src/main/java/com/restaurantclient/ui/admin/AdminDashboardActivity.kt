@@ -1,26 +1,35 @@
 package com.restaurantclient.ui.admin
 
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.ColorUtils
+import androidx.core.view.isVisible
+import com.eightbitlab.com.blurview.BlurView
+import com.eightbitlab.com.blurview.RenderScriptBlur
+import com.google.android.material.chip.Chip
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.restaurantclient.MainActivity
 import com.restaurantclient.R
+import com.restaurantclient.data.dto.RoleDTO
+import com.restaurantclient.data.dto.UserDTO
 import com.restaurantclient.databinding.ActivityAdminDashboardBinding
-import com.restaurantclient.ui.auth.AuthViewModel
-import com.restaurantclient.ui.order.MyOrdersActivity
+import com.restaurantclient.databinding.ItemRecentUserBinding
 import com.restaurantclient.ui.product.ProductListActivity
 import com.restaurantclient.ui.user.UserProfileActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AdminDashboardActivity : AppCompatActivity() {
+class AdminDashboardActivity : BaseAdminActivity() {
 
     private lateinit var binding: ActivityAdminDashboardBinding
     private val adminViewModel: AdminDashboardViewModel by viewModels()
-    private val authViewModel: AuthViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +37,7 @@ class AdminDashboardActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupToolbar()
+        setupGlassEffects()
         setupClickListeners()
         setupObservers()
         
@@ -36,8 +46,7 @@ class AdminDashboardActivity : AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "Admin Dashboard"
+        setupAdminToolbar(binding.adminToolbar.toolbar, getString(R.string.admin_dashboard_title))
     }
 
     private fun setupClickListeners() {
@@ -53,7 +62,7 @@ class AdminDashboardActivity : AppCompatActivity() {
 
         // Order Management Card
         binding.orderManagementCard.setOnClickListener {
-            startActivity(Intent(this, MyOrdersActivity::class.java))
+            startActivity(Intent(this, OrderManagementActivity::class.java))
         }
 
         // Quick Actions
@@ -62,8 +71,7 @@ class AdminDashboardActivity : AppCompatActivity() {
         }
 
         binding.viewReportsButton.setOnClickListener {
-            // TODO: Implement reports functionality
-            // startActivity(Intent(this, ReportsActivity::class.java))
+            showReportsPlaceholderDialog()
         }
     }
 
@@ -76,9 +84,46 @@ class AdminDashboardActivity : AppCompatActivity() {
         }
 
         adminViewModel.recentUsers.observe(this) { users ->
-            // Update recent users list
-            // TODO: Implement RecyclerView for recent users
+            renderRecentUsers(users)
         }
+    }
+
+    private fun renderRecentUsers(users: List<UserDTO>) {
+        val inflater = LayoutInflater.from(this)
+        binding.recentUsersContainer.removeAllViews()
+        val hasUsers = users.isNotEmpty()
+        binding.recentUsersContainer.isVisible = hasUsers
+        binding.recentUsersEmpty.isVisible = !hasUsers
+
+        users.forEach { user ->
+            val itemBinding = ItemRecentUserBinding.inflate(inflater, binding.recentUsersContainer, false)
+            itemBinding.usernameText.text = user.username
+            itemBinding.joinedText.text = formatDate(user.createdAt)
+            bindRoleChip(itemBinding.roleChip, user.role)
+            binding.recentUsersContainer.addView(itemBinding.root)
+        }
+    }
+
+    private fun bindRoleChip(chip: Chip, role: RoleDTO?) {
+        val resolvedRole = role ?: RoleDTO.Customer
+        chip.text = resolvedRole.name.uppercase()
+        val colorRes = if (resolvedRole == RoleDTO.Admin) R.color.admin_primary else R.color.admin_secondary
+        chip.chipBackgroundColor = ColorStateList.valueOf(ContextCompat.getColor(this, colorRes))
+    }
+
+    private fun formatDate(rawDate: String?): String {
+        if (rawDate.isNullOrBlank()) {
+            return getString(R.string.label_unknown_date)
+        }
+        return rawDate.substringBefore("T")
+    }
+
+    private fun showReportsPlaceholderDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.reports_dialog_title)
+            .setMessage(R.string.reports_dialog_message)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -120,5 +165,22 @@ class AdminDashboardActivity : AppCompatActivity() {
         super.onResume()
         // Refresh dashboard data when returning to screen
         adminViewModel.loadDashboardData()
+    }
+
+    private fun setupGlassEffects() {
+        configureBlur(binding.adminBadgeBlurView, R.color.admin_glass_overlay, 22f)
+    }
+
+    private fun configureBlur(blurView: BlurView, overlayColorRes: Int, radius: Float = 18f) {
+        val decorView = window.decorView
+        val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
+        val windowBackground = decorView.background
+        blurView.setupWith(rootView)
+            .setFrameClearDrawable(windowBackground)
+            .setBlurAlgorithm(RenderScriptBlur(this))
+            .setBlurRadius(radius)
+            .setHasFixedTransformationMatrix(true)
+        val overlay = ColorUtils.setAlphaComponent(ContextCompat.getColor(this, overlayColorRes), 200)
+        blurView.setOverlayColor(overlay)
     }
 }

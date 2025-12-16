@@ -4,21 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_admin_glass_gradient"
     tools:context=".ui.admin.AdminDashboardActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/primary_color"
-            app:titleTextColor="@android:color/white"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    </com.google.android.material.appbar.AppBarLayout>
+    <include
+        android:id="@+id/admin_toolbar"
+        layout="@layout/admin_toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -33,37 +24,52 @@
 
             <!-- Admin Badge -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/admin_badge_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp"
-                app:cardBackgroundColor="@color/admin_primary">
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="0dp"
+                app:strokeColor="@color/admin_primary"
+                app:strokeWidth="1dp">
 
-                <LinearLayout
+                <FrameLayout
+                    android:id="@+id/admin_badge_glass_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
+                    android:clipToPadding="false">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_admin_badge"
-                        android:layout_marginEnd="12dp"
-                        app:tint="@android:color/white" />
+                    <com.eightbitlab.com.blurview.BlurView
+                        android:id="@+id/admin_badge_blur_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Administrator Dashboard"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
 
-                </LinearLayout>
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_admin_badge"
+                            android:layout_marginEnd="12dp"
+                            app:tint="@android:color/white" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Administrator Dashboard"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+                </FrameLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Statistics Cards -->
@@ -441,7 +447,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="24dp">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/add_user_button"
@@ -464,6 +470,34 @@
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recent Activity"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:id="@+id/recent_users_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:layout_marginBottom="12dp" />
+
+            <TextView
+                android:id="@+id/recent_users_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No recent activity yet"
+                android:textAppearance="?attr/textAppearanceBody2"
+                android:textColor="@color/text_secondary"
+                android:gravity="center"
+                android:visibility="gone"
+                tools:visibility="gone"
+                android:layout_marginBottom="24dp" />
 
         </LinearLayout>
 
