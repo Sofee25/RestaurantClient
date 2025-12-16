@@ -36,8 +36,10 @@ class FoodProductAdapter(
 
         fun bind(product: ProductResponse) {
             binding.productName.text = product.name
+            // TODO: Replace with actual product category/restaurant field when available in ProductResponse
             binding.productSubtitle.text = "Wendy's Burger" // Default subtitle
             
+            // TODO: Replace with actual product.rating field when available in ProductResponse
             // Generate a random rating for demo purposes
             val rating = String.format("%.1f", Random.nextDouble(3.5, 5.0))
             binding.ratingText.text = rating

@@ -56,6 +56,7 @@ class FoodDetailActivity : AppCompatActivity() {
         binding.productName.text = productName
         binding.productDescription.text = productDescription
         
+        // TODO: Replace with actual product.rating and estimatedTime fields when available
         // Generate random rating and time for demo
         val rating = String.format("%.1f", Random.nextDouble(3.5, 5.0))
         val time = Random.nextInt(15, 40)
@@ -123,8 +124,12 @@ class FoodDetailActivity : AppCompatActivity() {
     }
 
     private fun placeOrder() {
-        // Add to cart
-        // For demo, we'll show the success dialog
+        // TODO: Implement actual cart functionality with CartManager
+        // For now, show the success dialog as a demo of the UI
+        // Future implementation should:
+        // 1. Add product to cart with cartManager.addToCart()
+        // 2. Handle quantity and spicy level preferences
+        // 3. Navigate to cart or show confirmation
         showSuccessDialog()
     }
 
