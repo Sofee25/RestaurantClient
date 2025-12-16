@@ -22,11 +22,17 @@ class OrderViewModel @Inject constructor(
 
     private val _userOrders = MutableLiveData<Result<List<OrderResponse>>>()
     val userOrders: LiveData<Result<List<OrderResponse>>> = _userOrders
+    
+    private var isCreatingOrder = false
 
     fun createOrder(createOrderRequest: CreateOrderRequest) {
+        if (isCreatingOrder) return
+        
+        isCreatingOrder = true
         viewModelScope.launch {
             val result = orderRepository.createOrder(createOrderRequest)
             _createOrderResult.postValue(result)
+            isCreatingOrder = false
         }
     }
 

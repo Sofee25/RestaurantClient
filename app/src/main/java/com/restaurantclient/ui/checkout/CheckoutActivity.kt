@@ -26,6 +26,7 @@ class CheckoutActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCheckoutBinding
     private val orderViewModel: OrderViewModel by viewModels()
     private lateinit var cartAdapter: CheckoutCartAdapter
+    private var isOrderBeingPlaced = false
     
     @Inject
     lateinit var cartManager: CartManager
@@ -57,6 +58,10 @@ class CheckoutActivity : AppCompatActivity() {
 
     private fun setupClickListeners() {
         binding.placeOrderButton.setOnClickListener {
+            if (isOrderBeingPlaced) {
+                return@setOnClickListener
+            }
+            
             if (cartManager.totalItems > 0) {
                 placeOrder()
             } else {
@@ -68,7 +73,9 @@ class CheckoutActivity : AppCompatActivity() {
 
     private fun setupObservers() {
         orderViewModel.createOrderResult.observe(this) { result ->
+            isOrderBeingPlaced = false
             binding.placeOrderButton.isEnabled = true
+            
             when (result) {
                 is Result.Success -> {
                     val orderTotal = "$${String.format("%.2f", cartManager.totalAmount)}"
@@ -110,6 +117,7 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun placeOrder() {
+        isOrderBeingPlaced = true
         binding.placeOrderButton.isEnabled = false
         
         val orderRequest = CreateOrderRequest(
