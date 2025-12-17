@@ -59,7 +59,7 @@ class ProductRepositoryTest {
     @Test
     fun `getAllProducts success returns success result`() = runTest {
         // Given
-        val simpleJson = "[{\"id\":1,\"name\":\"test\",\"description\":\"desc\",\"price\":\"10.0\",\"imageUrl\":\"url\"}]" // Simpler JSON
+        val simpleJson = "[{\"product_id\":1,\"name\":\"test\",\"description\":\"desc\",\"price\":\"10.0\",\"product_image_uri\":\"url\"}]"
         val mockResponse = MockResponse()
             .setBody(simpleJson)
             .setResponseCode(200)
