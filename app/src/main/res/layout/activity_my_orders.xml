@@ -28,26 +28,25 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Glass Summary Card -->
-        <eightbitlab.com.blurview.BlurView
+        <!-- Summary Card (temporarily simplified) -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/orders_summary_glass"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:elevation="4dp"
-            app:blurOverlayColor="#00FFFFFF"
+            app:cardBackgroundColor="@color/brand_surface"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/brand_outline_variant"
+            app:strokeWidth="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <!-- Glass Border -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/glass_card_border" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,16 +71,18 @@
                     android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     android:textColor="@color/brand_on_surface_variant" />
             </LinearLayout>
-        </eightbitlab.com.blurview.BlurView>
+        </com.google.android.material.card.MaterialCardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/orders_recycler_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:clipToPadding="false"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
