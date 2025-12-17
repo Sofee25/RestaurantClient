@@ -97,4 +97,10 @@
     <string name="remove_item">Remove item from cart</string>
     <string name="admin_mode_active">Admin Mode Active</string>
     <string name="view_cart">View cart</string>
+    
+    <!-- Itadaki Introduction Screen -->
+    <string name="itadaki_app_name">Itadaki</string>
+    <string name="itadaki_tagline">Authentic Taste, Delivered</string>
+    <string name="itadaki_get_started">Get Started</string>
+    <string name="itadaki_order_now">Order Now</string>
 </resources>
