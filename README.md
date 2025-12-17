@@ -47,7 +47,7 @@ Restaurant Client is a comprehensive mobile application designed to streamline r
 
 ---
 
-## ��️ Technologies Used
+## ️ Technologies Used
 
 ### Frontend
 - **Language:** Kotlin 1.9.22
@@ -78,7 +78,7 @@ Restaurant Client is a comprehensive mobile application designed to streamline r
 
 ---
 
-## �� Installation
+## Installation
 
 ### Prerequisites
 - Android Studio Ladybug 2024.2.1 or later
