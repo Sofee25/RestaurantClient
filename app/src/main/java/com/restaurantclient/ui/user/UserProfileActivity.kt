@@ -63,30 +63,44 @@ class UserProfileActivity : AppCompatActivity() {
     private fun setupAdminShortcuts() {
         binding.adminActionsCard.isVisible = true
         binding.customerActionsCard.isVisible = false
+        
+        // Setup blur for admin actions card
+        binding.adminActionsBlur?.let { blurView ->
+            val whiteOverlay = androidx.core.content.ContextCompat.getColor(this, R.color.white_glass_overlay)
+            blurView.setOverlayColor(whiteOverlay)
+            blurView.setupGlassEffect(20f)
+        }
 
         binding.adminDashboardButton.setOnClickListener {
-            startActivity(Intent(this, AdminDashboardActivity::class.java))
+            startActivity(android.content.Intent(this, AdminDashboardActivity::class.java))
         }
         binding.adminUsersButton.setOnClickListener {
-            startActivity(Intent(this, UserManagementActivity::class.java))
+            startActivity(android.content.Intent(this, UserManagementActivity::class.java))
         }
         binding.adminOrdersButton.setOnClickListener {
-            startActivity(Intent(this, OrderManagementActivity::class.java))
+            startActivity(android.content.Intent(this, OrderManagementActivity::class.java))
         }
     }
 
     private fun setupCustomerShortcuts() {
         binding.adminActionsCard.isVisible = false
         binding.customerActionsCard.isVisible = true
+        
+        // Setup blur for customer actions card
+        binding.customerActionsBlur?.let { blurView ->
+            val whiteOverlay = androidx.core.content.ContextCompat.getColor(this, R.color.white_glass_overlay)
+            blurView.setOverlayColor(whiteOverlay)
+            blurView.setupGlassEffect(20f)
+        }
 
         binding.customerOrdersButton.setOnClickListener {
-            startActivity(Intent(this, com.restaurantclient.ui.order.MyOrdersActivity::class.java))
+            startActivity(android.content.Intent(this, com.restaurantclient.ui.order.MyOrdersActivity::class.java))
         }
         binding.customerCartButton.setOnClickListener {
-            startActivity(Intent(this, com.restaurantclient.ui.cart.ShoppingCartActivity::class.java))
+            startActivity(android.content.Intent(this, com.restaurantclient.ui.cart.ShoppingCartActivity::class.java))
         }
         binding.customerCheckoutButton.setOnClickListener {
-            startActivity(Intent(this, com.restaurantclient.ui.checkout.CheckoutActivity::class.java))
+            startActivity(android.content.Intent(this, com.restaurantclient.ui.checkout.CheckoutActivity::class.java))
         }
     }
 

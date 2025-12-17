@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.eightbitlab.com.blurview.RenderScriptBlur
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.restaurantclient.MainActivity
 import com.restaurantclient.R
@@ -17,6 +19,7 @@ import com.restaurantclient.data.Result
 import com.restaurantclient.data.dto.RoleDTO
 import com.restaurantclient.data.dto.UserDTO
 import com.restaurantclient.databinding.ActivityUserManagementBinding
+import com.restaurantclient.ui.common.setupGlassEffect
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -39,6 +42,7 @@ class UserManagementActivity : BaseAdminActivity() {
         setContentView(binding.root)
 
         setupToolbar()
+        setupGlassFAB()
         setupRecyclerView()
         setupClickListeners()
         setupObservers()
@@ -53,6 +57,10 @@ class UserManagementActivity : BaseAdminActivity() {
             getString(R.string.user_management_title),
             showBackButton = true
         )
+    }
+
+    private fun setupGlassFAB() {
+        binding.addUserFabBlur.setupGlassEffect(25f)
     }
 
     private fun setupRecyclerView() {

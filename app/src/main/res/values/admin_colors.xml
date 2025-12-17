@@ -8,6 +8,7 @@
     <color name="admin_success">#2E7D32</color>
     <color name="admin_warning">#F57C00</color>
     <color name="admin_error">#C62828</color>
+    <color name="admin_info">#1976D2</color>
     
     <!-- Background Colors -->
     <color name="admin_background">#FAFAFA</color>

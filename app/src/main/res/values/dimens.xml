@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spacing -->
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_medium">16dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_xlarge">32dp</dimen>
+
+    <!-- Glass Card Dimensions -->
+    <dimen name="glass_card_corner_radius">16dp</dimen>
+    <dimen name="glass_card_elevation">4dp</dimen>
+    <dimen name="glass_card_margin">8dp</dimen>
+    
+    <!-- Glass Button Dimensions -->
+    <dimen name="glass_button_corner_radius">12dp</dimen>
+    <dimen name="glass_button_elevation">4dp</dimen>
+    
+    <!-- Glass Dialog Dimensions -->
+    <dimen name="glass_dialog_corner_radius">20dp</dimen>
+    <dimen name="glass_dialog_margin">24dp</dimen>
+    <dimen name="glass_dialog_padding">24dp</dimen>
+    
+    <!-- Blur Effect Dimensions -->
+    <dimen name="blur_radius_small">15dp</dimen>
+    <dimen name="blur_radius_normal">20dp</dimen>
+    <dimen name="blur_radius_large">25dp</dimen>
+</resources>

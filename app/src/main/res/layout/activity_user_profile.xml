@@ -4,14 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true"
+    android:background="@color/bg_gradient_start"
     tools:context=".ui.user.UserProfileActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
         android:orientation="vertical"
         android:padding="24dp">
 
@@ -63,113 +61,152 @@
             </LinearLayout>
         </eightbitlab.com.blurview.BlurView>
 
+        <!-- Admin Actions Glass Card -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/admin_actions_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:visibility="gone"
+            app:cardBackgroundColor="@android:color/transparent"
             app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            tools:visibility="visible">
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp"
+            tools:visibility="gone">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:layout_height="wrap_content">
 
-                <TextView
+                <eightbitlab.com.blurview.BlurView
+                    android:id="@+id/admin_actions_blur"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Admin Shortcuts"
-                    android:textAppearance="?attr/textAppearanceSubtitle1"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/admin_dashboard_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Dashboard"
-                    app:cornerRadius="12dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Admin Shortcuts"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/admin_users_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Manage Users"
-                    app:cornerRadius="12dp" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/admin_dashboard_button"
+                        style="@style/GlassButton.Primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Dashboard"
+                        app:cornerRadius="12dp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/admin_orders_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Orders"
-                    app:cornerRadius="12dp" />
-            </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/admin_users_button"
+                        style="@style/GlassButton.Primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Manage Users"
+                        app:cornerRadius="12dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/admin_orders_button"
+                        style="@style/GlassButton.Primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Orders"
+                        app:cornerRadius="12dp" />
+                </LinearLayout>
+
+            </FrameLayout>
+
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Customer Actions Glass Card -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/customer_actions_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            android:visibility="visible"
+            app:cardBackgroundColor="@android:color/transparent"
             app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            tools:visibility="gone">
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp"
+            tools:visibility="visible">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="20dp">
+                android:layout_height="wrap_content">
 
-                <TextView
+                <eightbitlab.com.blurview.BlurView
+                    android:id="@+id/customer_actions_blur"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Customer shortcuts"
-                    android:textAppearance="?attr/textAppearanceSubtitle1"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="12dp" />
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/customer_orders_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="My Orders"
-                    app:cornerRadius="12dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Customer Shortcuts"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/customer_cart_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Shopping Cart"
-                    app:cornerRadius="12dp" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/customer_orders_button"
+                        style="@style/GlassButton.Filled"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="My Orders"
+                        app:cornerRadius="12dp" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/customer_checkout_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Checkout"
-                    app:cornerRadius="12dp" />
-            </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/customer_cart_button"
+                        style="@style/GlassButton.Filled"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Shopping Cart"
+                        app:cornerRadius="12dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/customer_checkout_button"
+                        style="@style/GlassButton.Filled"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Checkout"
+                        app:cornerRadius="12dp" />
+                </LinearLayout>
+
+            </FrameLayout>
+
         </com.google.android.material.card.MaterialCardView>
 
+        <!-- Logout Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/logout_button"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
             android:text="Logout"
             android:textColor="@color/food_primary_red"
             app:cornerRadius="12dp"

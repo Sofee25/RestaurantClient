@@ -6,7 +6,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.restaurantclient.R
 import com.restaurantclient.data.CartManager
 import com.restaurantclient.data.Result
 import com.restaurantclient.data.dto.CreateOrderRequest
@@ -53,14 +55,18 @@ class CheckoutActivity : AppCompatActivity() {
     
     private fun setupGlassUI() {
         // Setup glass effect for checkout summary
-        binding.checkoutSummaryGlass.setupGlassEffect(25f)
-        binding.checkoutSummaryGlass.setOutlineProvider(android.view.ViewOutlineProvider.BACKGROUND)
-        binding.checkoutSummaryGlass.clipToOutline = true
+        binding.checkoutSummaryBlur?.let { blurView ->
+            val whiteOverlay = androidx.core.content.ContextCompat.getColor(this, R.color.white_glass_overlay)
+            blurView.setOverlayColor(whiteOverlay)
+            blurView.setupGlassEffect(20f)
+        }
         
         // Setup glass effect for total card
-        binding.checkoutTotalGlass.setupGlassEffect(25f)
-        binding.checkoutTotalGlass.setOutlineProvider(android.view.ViewOutlineProvider.BACKGROUND)
-        binding.checkoutTotalGlass.clipToOutline = true
+        binding.checkoutTotalBlur?.let { blurView ->
+            val whiteOverlay = androidx.core.content.ContextCompat.getColor(this, R.color.white_glass_overlay)
+            blurView.setOverlayColor(whiteOverlay)
+            blurView.setupGlassEffect(20f)
+        }
     }
 
     private fun setupRecyclerView() {
@@ -127,7 +133,8 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun updateTotal() {
-        binding.totalPrice.text = "$${String.format("%.2f", cartManager.totalAmount)}"
+        val total = cartManager.totalAmount
+        binding.totalPrice.text = String.format("$%.2f", total)
     }
 
     private fun placeOrder() {

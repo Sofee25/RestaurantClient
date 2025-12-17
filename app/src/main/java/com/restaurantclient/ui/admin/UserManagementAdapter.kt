@@ -2,13 +2,16 @@ package com.restaurantclient.ui.admin
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.eightbitlab.com.blurview.RenderScriptBlur
 import com.restaurantclient.R
 import com.restaurantclient.data.dto.RoleDTO
 import com.restaurantclient.data.dto.UserDTO
 import com.restaurantclient.databinding.ItemUserBinding
+import com.restaurantclient.ui.common.setupGlassEffect
 
 class UserManagementAdapter(
     private val onEditUser: (UserDTO) -> Unit,
@@ -25,6 +28,17 @@ class UserManagementAdapter(
     }
 
     inner class UserViewHolder(private val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            setupBlur()
+        }
+
+        private fun setupBlur() {
+            val context = binding.root.context
+            val whiteOverlay = ContextCompat.getColor(context, R.color.white_glass_overlay)
+            binding.userCardBlur.setOverlayColor(whiteOverlay)
+            binding.userCardBlur.setupGlassEffect(20f)
+        }
 
         fun bind(user: UserDTO) {
             binding.usernameText.text = user.username

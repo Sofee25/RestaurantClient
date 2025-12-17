@@ -218,17 +218,41 @@
         tools:visibility="gone" />
 
     <!-- Admin FAB for adding products (Bottom Right) -->
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/admin_add_product_fab"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/action_add_product"
-        app:icon="@android:drawable/ic_input_add"
-        app:backgroundTint="@color/admin_accent"
-        app:iconTint="@color/white"
-        android:textColor="@color/white" />
+        android:layout_marginBottom="16dp">
+
+        <eightbitlab.com.blurview.BlurView
+            android:id="@+id/admin_add_product_fab_blur"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:elevation="8dp"
+            app:blurOverlayColor="#00FFFFFF">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/glass_fab_border" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@android:drawable/ic_input_add"
+                android:contentDescription="@string/action_add_product"
+                app:tint="@color/admin_accent" />
+
+            <View
+                android:id="@+id/admin_add_product_fab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true" />
+        </eightbitlab.com.blurview.BlurView>
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

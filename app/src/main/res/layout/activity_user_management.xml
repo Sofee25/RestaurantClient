@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_admin_glass_gradient"
     tools:context=".ui.admin.UserManagementActivity">
 
     <include
@@ -75,14 +76,42 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_user_fab"
+    <!-- Glass FAB for adding users -->
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:contentDescription="Add User"
-        app:srcCompat="@drawable/ic_add_user"
-        app:backgroundTint="@color/admin_primary" />
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp">
+
+        <eightbitlab.com.blurview.BlurView
+            android:id="@+id/add_user_fab_blur"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:elevation="8dp"
+            app:blurOverlayColor="#00FFFFFF">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/glass_fab_border" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_add_user"
+                android:contentDescription="Add User"
+                app:tint="@color/admin_primary" />
+
+            <View
+                android:id="@+id/add_user_fab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:focusable="true" />
+        </eightbitlab.com.blurview.BlurView>
+    </FrameLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

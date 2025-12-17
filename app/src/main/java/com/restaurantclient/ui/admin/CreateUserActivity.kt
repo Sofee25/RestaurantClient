@@ -3,13 +3,17 @@ package com.restaurantclient.ui.admin
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
+import com.eightbitlab.com.blurview.RenderScriptBlur
 import com.restaurantclient.R
 import com.restaurantclient.data.Result
 import com.restaurantclient.data.dto.RoleDTO
 import com.restaurantclient.databinding.ActivityCreateUserBinding
+import com.restaurantclient.ui.common.setupGlassEffect
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,6 +28,7 @@ class CreateUserActivity : BaseAdminActivity() {
         setContentView(binding.root)
 
         setupToolbar()
+        setupGlassForm()
         setupRoleSpinner()
         setupClickListeners()
         setupObservers()
@@ -35,6 +40,12 @@ class CreateUserActivity : BaseAdminActivity() {
             getString(R.string.create_user_title),
             showBackButton = true
         )
+    }
+
+    private fun setupGlassForm() {
+        val whiteOverlay = ContextCompat.getColor(this, R.color.white_glass_overlay)
+        binding.createUserFormBlur.setOverlayColor(whiteOverlay)
+        binding.createUserFormBlur.setupGlassEffect(25f)
     }
 
     private fun setupRoleSpinner() {

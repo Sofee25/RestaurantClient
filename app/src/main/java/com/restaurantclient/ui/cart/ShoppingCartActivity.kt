@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.restaurantclient.R
 import com.restaurantclient.data.CartManager
 import com.restaurantclient.databinding.ActivityShoppingCartBinding
 import com.restaurantclient.ui.checkout.CheckoutActivity
@@ -44,9 +46,11 @@ class ShoppingCartActivity : AppCompatActivity() {
     
     private fun setupGlassUI() {
         // Setup glass effect for floating cart summary
-        binding.cartSummaryGlass.setupGlassEffect(25f)
-        binding.cartSummaryGlass.setOutlineProvider(android.view.ViewOutlineProvider.BACKGROUND)
-        binding.cartSummaryGlass.clipToOutline = true
+        binding.cartSummaryBlur?.let { blurView ->
+            val whiteOverlay = androidx.core.content.ContextCompat.getColor(this, R.color.white_glass_overlay)
+            blurView.setOverlayColor(whiteOverlay)
+            blurView.setupGlassEffect(20f)
+        }
     }
 
     private fun setupRecyclerView() {

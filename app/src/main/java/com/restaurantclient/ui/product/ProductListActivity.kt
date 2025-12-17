@@ -169,6 +169,9 @@ class ProductListActivity : AppCompatActivity() {
 
     private fun setupAdminUi() {
         if (isAdminUser) {
+            // Setup Glass FAB for admin
+            adminBinding!!.adminAddProductFabBlur.setupGlassEffect(25f)
+            
             adminBinding!!.adminAddProductFab.setOnClickListener {
                 showProductEditor()
             }

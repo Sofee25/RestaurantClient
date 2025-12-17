@@ -56,6 +56,3 @@ ARROW (Asynchronous Rust Restaurant Order Workflow) Server is a high-performance
 
 ## Contributing
 (Please specify guidelines for contributions, e.g., pull request process, coding standards.)
-
-## License
-Licensed under the Restaurant Client Custom License (see [LICENSE](LICENSE) for full terms).
